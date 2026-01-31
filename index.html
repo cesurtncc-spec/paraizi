@@ -1,0 +1,179 @@
+# 💰 Paraİzi - Mobil Uygulama
+
+Kişisel finans takip uygulaması - React Native ile geliştirildi
+
+## 📱 Özellikler
+
+✅ **Ana Ekran**
+- Toplam bakiye, gelir ve gider özeti
+- Hızlı gelir/gider ekleme
+- Son işlemler listesi
+- Sabit gider uyarısı
+
+✅ **İşlemler Sayfası**
+- Tüm işlemler listesi
+- Zamana göre gruplama (Bugün, Bu Hafta, Bu Ay)
+- Arama ve filtreleme
+
+✅ **İstatistikler**
+- Ay sonu tahmini
+- Günlük harcama limiti
+- Kategori bazlı analiz
+- Günlük durum takibi
+
+✅ **Ayarlar**
+- Aylık sabit giderler yönetimi
+- Fatura ve abonelik takibi
+- Bildirim ayarları
+- Veri yönetimi
+
+## 🚀 Kurulum
+
+### Gereksinimler
+
+- Node.js (v18 veya üzeri)
+- React Native CLI
+- Android Studio (Android için)
+- Xcode (iOS için - sadece macOS)
+
+### Adım 1: Bağımlılıkları Yükle
+
+\`\`\`bash
+cd paraizi-mobile
+npm install
+\`\`\`
+
+### Adım 2: iOS için CocoaPods Yükle (Sadece macOS)
+
+\`\`\`bash
+cd ios
+pod install
+cd ..
+\`\`\`
+
+### Adım 3: Uygulamayı Çalıştır
+
+**Android:**
+\`\`\`bash
+npm run android
+\`\`\`
+
+**iOS:**
+\`\`\`bash
+npm run ios
+\`\`\`
+
+## 📦 APK/IPA Oluşturma
+
+### Android APK
+
+1. **Debug APK (Test için):**
+\`\`\`bash
+cd android
+./gradlew assembleDebug
+\`\`\`
+APK konumu: \`android/app/build/outputs/apk/debug/app-debug.apk\`
+
+2. **Release APK (Yayın için):**
+\`\`\`bash
+cd android
+./gradlew assembleRelease
+\`\`\`
+APK konumu: \`android/app/build/outputs/apk/release/app-release.apk\`
+
+### iOS IPA (macOS gerekli)
+
+1. Xcode'da projeyi açın:
+\`\`\`bash
+open ios/paraizi.xcworkspace
+\`\`\`
+
+2. Product > Archive seçeneğini kullanarak IPA oluşturun
+
+## 📱 APK'yı Telefona Yükleme
+
+### Yöntem 1: USB ile
+1. USB Debugging'i açın (Ayarlar > Geliştirici Seçenekleri)
+2. APK dosyasını telefona kopyalayın
+3. Dosya yöneticisinden APK'yı açın ve yükleyin
+
+### Yöntem 2: Google Drive
+1. APK dosyasını Google Drive'a yükleyin
+2. Telefondan Google Drive'dan indirin
+3. İndirilen APK'yı açın ve yükleyin
+
+### Yöntem 3: E-posta
+1. APK dosyasını e-posta ile kendinize gönderin
+2. Telefondan e-postayı açın ve eki indirin
+3. İndirilen APK'yı yükleyin
+
+## 🛠️ Geliştirme
+
+### Proje Yapısı
+
+\`\`\`
+paraizi-mobile/
+├── App.js                  # Ana uygulama bileşeni
+├── src/
+│   └── screens/
+│       ├── HomeScreen.js       # Ana ekran
+│       ├── TransactionsScreen.js   # İşlemler
+│       ├── StatsScreen.js      # İstatistikler
+│       └── SettingsScreen.js   # Ayarlar
+├── android/                # Android dosyaları
+├── ios/                    # iOS dosyaları
+└── package.json            # Bağımlılıklar
+\`\`\`
+
+### Veri Depolama
+
+Uygulama verileri **AsyncStorage** kullanarak cihazda yerel olarak saklanır.
+- Veriler şifrelenmemiş olarak saklanır
+- İnternet bağlantısı gerektirmez
+- Uygulama silindiğinde veriler de silinir
+
+### Kullanılan Kütüphaneler
+
+- **React Navigation** - Sayfa geçişleri
+- **React Native Vector Icons** - İkonlar
+- **Linear Gradient** - Gradient arka planlar
+- **AsyncStorage** - Yerel veri saklama
+
+## 📝 Notlar
+
+- Uygulama tamamen offline çalışır
+- Tüm veriler cihazda saklanır
+- İOS için Apple Developer hesabı gereklidir
+- Android için bilinmeyen kaynaklardan yüklemeye izin vermelisiniz
+
+## 🐛 Sorun Giderme
+
+### Metro bundler başlamıyor
+\`\`\`bash
+npm start -- --reset-cache
+\`\`\`
+
+### Android build hatası
+\`\`\`bash
+cd android
+./gradlew clean
+cd ..
+npm run android
+\`\`\`
+
+### iOS build hatası
+\`\`\`bash
+cd ios
+pod deintegrate
+pod install
+cd ..
+npm run ios
+\`\`\`
+
+## 📞 Destek
+
+Herhangi bir sorunuz veya öneriniz varsa lütfen iletişime geçin.
+
+---
+
+**Paraİzi** - Finansal özgürlüğünüze giden yol 💰
