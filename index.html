@@ -1,179 +1,1435 @@
-# 💰 Paraİzi - Mobil Uygulama
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#6366F1">
+    <title>Paraİzi - Kişisel Finans</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%236366F1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='256'%3E💰%3C/text%3E%3C/svg%3E">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-Kişisel finans takip uygulaması - React Native ile geliştirildi
+        :root {
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --bg-light: #F8FAFC;
+            --text-dark: #0F172A;
+            --text-gray: #64748B;
+            --border: #E2E8F0;
+        }
 
-## 📱 Özellikler
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            touch-action: pan-y;
+            overscroll-behavior-y: contain;
+        }
 
-✅ **Ana Ekran**
-- Toplam bakiye, gelir ve gider özeti
-- Hızlı gelir/gider ekleme
-- Son işlemler listesi
-- Sabit gider uyarısı
+        /* App Container */
+        .app-container {
+            width: 100%;
+            min-height: 100vh;
+            background: var(--bg-light);
+            position: relative;
+            padding-bottom: 80px;
+        }
 
-✅ **İşlemler Sayfası**
-- Tüm işlemler listesi
-- Zamana göre gruplama (Bugün, Bu Hafta, Bu Ay)
-- Arama ve filtreleme
+        /* Status Bar */
+        .status-bar {
+            background: var(--primary);
+            padding: 8px 20px;
+            padding-top: max(8px, env(safe-area-inset-top));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
 
-✅ **İstatistikler**
-- Ay sonu tahmini
-- Günlük harcama limiti
-- Kategori bazlı analiz
-- Günlük durum takibi
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            padding-top: 10px;
+        }
 
-✅ **Ayarlar**
-- Aylık sabit giderler yönetimi
-- Fatura ve abonelik takibi
-- Bildirim ayarları
-- Veri yönetimi
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-## 🚀 Kurulum
+        .app-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+        }
 
-### Gereksinimler
+        .header-icons {
+            display: flex;
+            gap: 12px;
+        }
 
-- Node.js (v18 veya üzeri)
-- React Native CLI
-- Android Studio (Android için)
-- Xcode (iOS için - sadece macOS)
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 20px;
+        }
 
-### Adım 1: Bağımlılıkları Yükle
+        .icon-btn:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.3);
+        }
 
-\`\`\`bash
-cd paraizi-mobile
-npm install
-\`\`\`
+        /* Balance Card */
+        .balance-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
 
-### Adım 2: iOS için CocoaPods Yükle (Sadece macOS)
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
 
-\`\`\`bash
-cd ios
-pod install
-cd ..
-\`\`\`
+        .balance-amount {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
 
-### Adım 3: Uygulamayı Çalıştır
+        .balance-details {
+            display: flex;
+            justify-content: space-between;
+        }
 
-**Android:**
-\`\`\`bash
-npm run android
-\`\`\`
+        .balance-item-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
 
-**iOS:**
-\`\`\`bash
-npm run ios
-\`\`\`
+        .balance-item-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
 
-## 📦 APK/IPA Oluşturma
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
+            margin-top: -25px;
+            margin-bottom: 20px;
+        }
 
-### Android APK
+        .action-btn {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+        }
 
-1. **Debug APK (Test için):**
-\`\`\`bash
-cd android
-./gradlew assembleDebug
-\`\`\`
-APK konumu: \`android/app/build/outputs/apk/debug/app-debug.apk\`
+        .action-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
 
-2. **Release APK (Yayın için):**
-\`\`\`bash
-cd android
-./gradlew assembleRelease
-\`\`\`
-APK konumu: \`android/app/build/outputs/apk/release/app-release.apk\`
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
 
-### iOS IPA (macOS gerekli)
+        .action-income {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
 
-1. Xcode'da projeyi açın:
-\`\`\`bash
-open ios/paraizi.xcworkspace
-\`\`\`
+        .action-expense {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
 
-2. Product > Archive seçeneğini kullanarak IPA oluşturun
+        .action-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-## 📱 APK'yı Telefona Yükleme
+        /* Main Content */
+        .main-content {
+            padding: 0 20px 20px;
+        }
 
-### Yöntem 1: USB ile
-1. USB Debugging'i açın (Ayarlar > Geliştirici Seçenekleri)
-2. APK dosyasını telefona kopyalayın
-3. Dosya yöneticisinden APK'yı açın ve yükleyin
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 15px;
+        }
 
-### Yöntem 2: Google Drive
-1. APK dosyasını Google Drive'a yükleyin
-2. Telefondan Google Drive'dan indirin
-3. İndirilen APK'yı açın ve yükleyin
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
 
-### Yöntem 3: E-posta
-1. APK dosyasını e-posta ile kendinize gönderin
-2. Telefondan e-postayı açın ve eki indirin
-3. İndirilen APK'yı yükleyin
+        .see-all {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 12px;
+        }
 
-## 🛠️ Geliştirme
+        /* Transaction List */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-### Proje Yapısı
+        .transaction-item {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-\`\`\`
-paraizi-mobile/
-├── App.js                  # Ana uygulama bileşeni
-├── src/
-│   └── screens/
-│       ├── HomeScreen.js       # Ana ekran
-│       ├── TransactionsScreen.js   # İşlemler
-│       ├── StatsScreen.js      # İstatistikler
-│       └── SettingsScreen.js   # Ayarlar
-├── android/                # Android dosyaları
-├── ios/                    # iOS dosyaları
-└── package.json            # Bağımlılıklar
-\`\`\`
+        .transaction-item:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
 
-### Veri Depolama
+        .transaction-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
 
-Uygulama verileri **AsyncStorage** kullanarak cihazda yerel olarak saklanır.
-- Veriler şifrelenmemiş olarak saklanır
-- İnternet bağlantısı gerektirmez
-- Uygulama silindiğinde veriler de silinir
+        .transaction-info {
+            flex: 1;
+            min-width: 0;
+        }
 
-### Kullanılan Kütüphaneler
+        .transaction-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-- **React Navigation** - Sayfa geçişleri
-- **React Native Vector Icons** - İkonlar
-- **Linear Gradient** - Gradient arka planlar
-- **AsyncStorage** - Yerel veri saklama
+        .transaction-meta {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
 
-## 📝 Notlar
+        .transaction-amount {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: right;
+        }
 
-- Uygulama tamamen offline çalışır
-- Tüm veriler cihazda saklanır
-- İOS için Apple Developer hesabı gereklidir
-- Android için bilinmeyen kaynaklardan yüklemeye izin vermelisiniz
+        .income-color { color: var(--success); }
+        .expense-color { color: var(--danger); }
 
-## 🐛 Sorun Giderme
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 20px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            z-index: 100;
+        }
 
-### Metro bundler başlamıyor
-\`\`\`bash
-npm start -- --reset-cache
-\`\`\`
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            flex: 1;
+        }
 
-### Android build hatası
-\`\`\`bash
-cd android
-./gradlew clean
-cd ..
-npm run android
-\`\`\`
+        .nav-item:active {
+            transform: scale(0.95);
+        }
 
-### iOS build hatası
-\`\`\`bash
-cd ios
-pod deintegrate
-pod install
-cd ..
-npm run ios
-\`\`\`
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
 
-## 📞 Destek
+        .nav-icon {
+            font-size: 24px;
+        }
 
-Herhangi bir sorunuz veya öneriniz varsa lütfen iletişime geçin.
+        .nav-label {
+            font-size: 11px;
+            font-weight: 600;
+        }
 
----
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: flex-end;
+            justify-content: center;
+        }
 
-**Paraİzi** - Finansal özgürlüğünüze giden yol 💰
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px 30px 0 0;
+            padding: 25px;
+            padding-bottom: max(25px, env(safe-area-inset-bottom));
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: var(--bg-light);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .type-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-btn {
+            padding: 16px;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+        }
+
+        .toggle-btn:active {
+            transform: scale(0.98);
+        }
+
+        .toggle-btn.active-income {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .toggle-btn.active-expense {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 99;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .install-prompt.show {
+            display: flex;
+        }
+
+        .install-icon {
+            font-size: 32px;
+        }
+
+        .install-info {
+            flex: 1;
+        }
+
+        .install-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .install-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .install-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .close-install {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* Settings */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .settings-item {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-item:active {
+            transform: scale(0.98);
+        }
+
+        .settings-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .settings-info {
+            flex: 1;
+        }
+
+        .settings-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .settings-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* Limit Warning */
+        .limit-warning {
+            background: #FEF3C7;
+            border-left: 4px solid var(--warning);
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #92400E;
+            line-height: 1.5;
+        }
+
+        /* Daily Status */
+        .daily-status {
+            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+            border-radius: 16px;
+            padding: 18px;
+            margin: 15px 0;
+            border: 2px solid #86EFAC;
+        }
+
+        .daily-status-title {
+            font-weight: 700;
+            color: #166534;
+            margin-bottom: 8px;
+        }
+
+        .daily-status-text {
+            font-size: 14px;
+            color: #15803D;
+            line-height: 1.5;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-gray);
+        }
+
+        .loading-spinner {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 480px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            }
+
+            .bottom-nav {
+                max-width: 480px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Ana Ekran -->
+        <div class="screen active" id="homeScreen">
+            <div class="status-bar">
+                <div class="time" id="currentTime">15:30</div>
+                <div>📶 🔋</div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-top">
+                    <div class="app-logo">💰 Paraİzi</div>
+                    <div class="header-icons">
+                        <button class="icon-btn" onclick="showScreen('notificationScreen')">🔔</button>
+                        <button class="icon-btn" onclick="showScreen('settingsScreen')">⚙️</button>
+                    </div>
+                </div>
+
+                <div class="balance-card">
+                    <div class="balance-label">Toplam Bakiye</div>
+                    <div class="balance-amount" id="totalBalance">₺42,895</div>
+                    <div class="balance-details">
+                        <div class="balance-item">
+                            <div class="balance-item-label">Bu Ay Gelir</div>
+                            <div class="balance-item-value income-color" id="monthIncome">₺55,800</div>
+                        </div>
+                        <div class="balance-item">
+                            <div class="balance-item-label">Bu Ay Gider</div>
+                            <div class="balance-item-value expense-color" id="monthExpense">₺12,905</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="action-btn" onclick="openAddTransaction('income')">
+                    <div class="action-icon action-income">📈</div>
+                    <div class="action-label">Gelir Ekle</div>
+                </button>
+                <button class="action-btn" onclick="openAddTransaction('expense')">
+                    <div class="action-icon action-expense">📉</div>
+                    <div class="action-label">Gider Ekle</div>
+                </button>
+            </div>
+
+            <div class="main-content">
+                <div class="limit-warning">
+                    ⚠️ <strong>Sabit Giderlerinizi Ayarlayın!</strong><br>
+                    Kira, faturalar gibi aylık sabit giderlerinizi ayarlar bölümünden ekleyin.
+                </div>
+
+                <div class="section-header">
+                    <div class="section-title">Son İşlemler</div>
+                    <div class="see-all" onclick="showScreen('transactionScreen')">Tümü →</div>
+                </div>
+
+                <div class="transaction-list" id="transactionList"></div>
+            </div>
+        </div>
+
+        <!-- İşlemler Ekranı -->
+        <div class="screen" id="transactionScreen">
+            <div class="status-bar">
+                <div class="time" id="currentTime2">15:30</div>
+                <div>📶 🔋</div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-top">
+                    <button class="icon-btn" onclick="showScreen('homeScreen')">←</button>
+                    <div class="app-logo">Tüm İşlemler</div>
+                    <button class="icon-btn">🔍</button>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section-header">
+                    <div class="section-title">Bugün</div>
+                </div>
+                <div class="transaction-list" id="todayTransactions"></div>
+
+                <div class="section-header">
+                    <div class="section-title">Bu Hafta</div>
+                </div>
+                <div class="transaction-list" id="weekTransactions"></div>
+
+                <div class="section-header">
+                    <div class="section-title">Bu Ay</div>
+                </div>
+                <div class="transaction-list" id="monthTransactions"></div>
+            </div>
+        </div>
+
+        <!-- İstatistikler Ekranı -->
+        <div class="screen" id="statsScreen">
+            <div class="status-bar">
+                <div class="time" id="currentTime3">15:30</div>
+                <div>📶 🔋</div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-top">
+                    <button class="icon-btn" onclick="showScreen('homeScreen')">←</button>
+                    <div class="app-logo">İstatistikler</div>
+                    <button class="icon-btn">📊</button>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section-header">
+                    <div class="section-title">Ay Sonu Tahmini</div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Toplam Gelir</div>
+                        <div class="stat-value income-color">₺55,800</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Sabit Gider</div>
+                        <div class="stat-value expense-color">₺6,450</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Kalan Para</div>
+                        <div class="stat-value">₺32,000</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Günlük Limit</div>
+                        <div class="stat-value" style="color: var(--warning);">₺267</div>
+                    </div>
+                </div>
+
+                <div class="daily-status">
+                    <div class="daily-status-title">✅ Bugünün Durumu</div>
+                    <div class="daily-status-text">
+                        Bugün <strong>₺185</strong> harcadınız. Limitiniz içindesiniz! 🎉
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <div class="section-title">Kategorilere Göre</div>
+                </div>
+
+                <div class="transaction-list">
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #FEE2E2;">🛒</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Market</div>
+                            <div class="transaction-meta">%38 (5 işlem)</div>
+                        </div>
+                        <div class="transaction-amount expense-color">₺5,480</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #FEF3C7;">⚡</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Faturalar</div>
+                            <div class="transaction-meta">%13 (3 işlem)</div>
+                        </div>
+                        <div class="transaction-amount expense-color">₺1,650</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #DBEAFE;">🎬</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Eğlence</div>
+                            <div class="transaction-meta">%12 (2 işlem)</div>
+                        </div>
+                        <div class="transaction-amount expense-color">₺1,480</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ayarlar Ekranı -->
+        <div class="screen" id="settingsScreen">
+            <div class="status-bar">
+                <div class="time" id="currentTime4">15:30</div>
+                <div>📶 🔋</div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-top">
+                    <button class="icon-btn" onclick="showScreen('homeScreen')">←</button>
+                    <div class="app-logo">Ayarlar</div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section-header">
+                    <div class="section-title">Kontrol & Farkındalık</div>
+                </div>
+
+                <div class="settings-list">
+                    <div class="settings-item" onclick="openFixedExpenses()">
+                        <div class="settings-icon" style="background: #FEE2E2;">📋</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Aylık Sabit Giderler</div>
+                            <div class="settings-desc">Kira, faturalar, abonelikler</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+
+                    <div class="settings-item">
+                        <div class="settings-icon" style="background: #FEF3C7;">⚡</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Fatura Takibi</div>
+                            <div class="settings-desc">Elektrik, su, doğalgaz</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+
+                    <div class="settings-item">
+                        <div class="settings-icon" style="background: #DBEAFE;">📱</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Abonelikler</div>
+                            <div class="settings-desc">Netflix, Spotify vb.</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 30px;">
+                    <div class="section-title">Günlük Harcama</div>
+                </div>
+
+                <div class="settings-list">
+                    <div class="settings-item">
+                        <div class="settings-icon" style="background: #DCFCE7;">📊</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Günlük Takip</div>
+                            <div class="settings-desc">Her giriş/çıkış takip</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+
+                    <div class="settings-item">
+                        <div class="settings-icon" style="background: #FEF3C7;">⚠️</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Limit Uyarıları</div>
+                            <div class="settings-desc">Renk kodlu uyarı sistemi</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 30px;">
+                    <div class="section-title">Uygulama</div>
+                </div>
+
+                <div class="settings-list">
+                    <div class="settings-item" onclick="showInstallPrompt()">
+                        <div class="settings-icon" style="background: #E0E7FF;">📲</div>
+                        <div class="settings-info">
+                            <div class="settings-title">Ana Ekrana Ekle</div>
+                            <div class="settings-desc">Uygulama gibi kullan</div>
+                        </div>
+                        <span>→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bildirimler -->
+        <div class="screen" id="notificationScreen">
+            <div class="status-bar">
+                <div class="time" id="currentTime5">15:30</div>
+                <div>📶 🔋</div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-top">
+                    <button class="icon-btn" onclick="showScreen('homeScreen')">←</button>
+                    <div class="app-logo">Bildirimler</div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="transaction-list">
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #DCFCE7;">✅</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Bugün limit içindesiniz!</div>
+                            <div class="transaction-meta">2 saat önce</div>
+                        </div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #FEF3C7;">⚠️</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Elektrik faturası yaklaşıyor</div>
+                            <div class="transaction-meta">5 saat önce</div>
+                        </div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-icon" style="background: #FEE2E2;">📉</div>
+                        <div class="transaction-info">
+                            <div class="transaction-name">Günlük limitinize yaklaştınız</div>
+                            <div class="transaction-meta">Dün</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showScreen('homeScreen')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Ana Sayfa</div>
+            </button>
+            <button class="nav-item" onclick="showScreen('transactionScreen')">
+                <div class="nav-icon">📋</div>
+                <div class="nav-label">İşlemler</div>
+            </button>
+            <button class="nav-item" onclick="showScreen('statsScreen')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">İstatistik</div>
+            </button>
+            <button class="nav-item" onclick="showScreen('settingsScreen')">
+                <div class="nav-icon">⚙️</div>
+                <div class="nav-label">Ayarlar</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- İşlem Ekleme Modal -->
+    <div class="modal" id="addTransactionModal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">Yeni İşlem</div>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+
+            <form id="transactionForm" onsubmit="handleSubmit(event)">
+                <div class="type-toggle">
+                    <button type="button" class="toggle-btn active-income" id="incomeBtn" onclick="setType('income')">
+                        📈 Gelir
+                    </button>
+                    <button type="button" class="toggle-btn" id="expenseBtn" onclick="setType('expense')">
+                        📉 Gider
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Açıklama</label>
+                    <input type="text" class="form-input" id="description" placeholder="Örn: Market alışverişi" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Kategori</label>
+                    <select class="form-select" id="category" required>
+                        <option value="Maaş">💰 Maaş</option>
+                        <option value="Freelance">💼 Freelance</option>
+                        <option value="Yatırım">📈 Yatırım</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tutar (₺)</label>
+                    <input type="number" class="form-input" id="amount" step="0.01" placeholder="0.00" required inputmode="decimal">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tarih</label>
+                    <input type="date" class="form-input" id="date" required>
+                </div>
+
+                <button type="submit" class="submit-btn">İşlemi Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sabit Giderler Modal -->
+    <div class="modal" id="fixedExpensesModal" onclick="closeFixedExpensesOnBackdrop(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">Sabit Giderler</div>
+                <button class="close-btn" onclick="closeFixedExpenses()">✕</button>
+            </div>
+
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="settings-icon" style="background: #FEE2E2;">🏠</div>
+                    <div class="settings-info">
+                        <div class="settings-title">Kira</div>
+                        <div class="settings-desc">₺3,500 / Ay</div>
+                    </div>
+                    <span>✏️</span>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon" style="background: #FEF3C7;">⚡</div>
+                    <div class="settings-info">
+                        <div class="settings-title">Elektrik</div>
+                        <div class="settings-desc">₺850 / Ay</div>
+                    </div>
+                    <span>✏️</span>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon" style="background: #DBEAFE;">💧</div>
+                    <div class="settings-info">
+                        <div class="settings-title">Su</div>
+                        <div class="settings-desc">₺350 / Ay</div>
+                    </div>
+                    <span>✏️</span>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-icon" style="background: #E0E7FF;">📡</div>
+                    <div class="settings-info">
+                        <div class="settings-title">İnternet</div>
+                        <div class="settings-desc">₺450 / Ay</div>
+                    </div>
+                    <span>✏️</span>
+                </div>
+            </div>
+
+            <button class="submit-btn" style="margin-top: 20px;">+ Yeni Sabit Gider Ekle</button>
+        </div>
+    </div>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-icon">💰</div>
+        <div class="install-info">
+            <div class="install-title">Paraİzi'yi Yükle</div>
+            <div class="install-desc">Ana ekrana ekle, uygulama gibi kullan</div>
+        </div>
+        <button class="install-btn" onclick="installApp()">Yükle</button>
+        <button class="close-install" onclick="closeInstallPrompt()">✕</button>
+    </div>
+
+    <script>
+        // PWA Install
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            setTimeout(() => {
+                document.getElementById('installPrompt').classList.add('show');
+            }, 3000);
+        });
+
+        function showInstallPrompt() {
+            if (deferredPrompt) {
+                document.getElementById('installPrompt').classList.add('show');
+            } else {
+                alert('📱 Tarayıcı menüsünden "Ana ekrana ekle" seçeneğini kullanabilirsiniz!');
+            }
+        }
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Uygulama yüklendi');
+                    }
+                    deferredPrompt = null;
+                    closeInstallPrompt();
+                });
+            }
+        }
+
+        function closeInstallPrompt() {
+            document.getElementById('installPrompt').classList.remove('show');
+        }
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker error:', err));
+        }
+
+        // App Logic
+        let currentType = 'income';
+        let transactions = JSON.parse(localStorage.getItem('paraizi_transactions')) || [
+            {
+                id: 1,
+                type: 'income',
+                description: 'Aylık Maaş',
+                category: 'Maaş',
+                amount: 45000,
+                date: '2026-01-01',
+                icon: '💰',
+                color: '#DCFCE7'
+            },
+            {
+                id: 2,
+                type: 'expense',
+                description: 'Migros Market',
+                category: 'Market',
+                amount: 3250,
+                date: '2026-01-31',
+                icon: '🛒',
+                color: '#FEE2E2'
+            },
+            {
+                id: 3,
+                type: 'expense',
+                description: 'İstanbulkart Dolum',
+                category: 'Ulaşım',
+                amount: 185,
+                date: '2026-01-31',
+                icon: '🚗',
+                color: '#FEF3C7'
+            }
+        ];
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            const navMap = {
+                'homeScreen': 0,
+                'transactionScreen': 1,
+                'statsScreen': 2,
+                'settingsScreen': 3
+            };
+            
+            const index = navMap[screenId];
+            if (index !== undefined) {
+                document.querySelectorAll('.nav-item')[index].classList.add('active');
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function openAddTransaction(type) {
+            currentType = type;
+            setType(type);
+            document.getElementById('addTransactionModal').classList.add('active');
+            document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeModal() {
+            document.getElementById('addTransactionModal').classList.remove('active');
+        }
+
+        function closeModalOnBackdrop(event) {
+            if (event.target.id === 'addTransactionModal') {
+                closeModal();
+            }
+        }
+
+        function setType(type) {
+            currentType = type;
+            const incomeBtn = document.getElementById('incomeBtn');
+            const expenseBtn = document.getElementById('expenseBtn');
+            
+            if (type === 'income') {
+                incomeBtn.classList.add('active-income');
+                incomeBtn.classList.remove('active-expense');
+                expenseBtn.classList.remove('active-income', 'active-expense');
+                
+                document.getElementById('category').innerHTML = `
+                    <option value="Maaş">💰 Maaş</option>
+                    <option value="Freelance">💼 Freelance</option>
+                    <option value="Yatırım">📈 Yatırım</option>
+                    <option value="Diğer">📌 Diğer</option>
+                `;
+            } else {
+                expenseBtn.classList.add('active-expense');
+                expenseBtn.classList.remove('active-income');
+                incomeBtn.classList.remove('active-income', 'active-expense');
+                
+                document.getElementById('category').innerHTML = `
+                    <option value="Market">🛒 Market</option>
+                    <option value="Ulaşım">🚗 Ulaşım</option>
+                    <option value="Faturalar">⚡ Faturalar</option>
+                    <option value="Eğlence">🎬 Eğlence</option>
+                    <option value="Sağlık">🏥 Sağlık</option>
+                    <option value="Kıyafet">👕 Kıyafet</option>
+                    <option value="Diğer">📌 Diğer</option>
+                `;
+            }
+        }
+
+        function openFixedExpenses() {
+            document.getElementById('fixedExpensesModal').classList.add('active');
+        }
+
+        function closeFixedExpenses() {
+            document.getElementById('fixedExpensesModal').classList.remove('active');
+        }
+
+        function closeFixedExpensesOnBackdrop(event) {
+            if (event.target.id === 'fixedExpensesModal') {
+                closeFixedExpenses();
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const iconMap = {
+                'Maaş': '💰', 'Freelance': '💼', 'Yatırım': '📈',
+                'Market': '🛒', 'Ulaşım': '🚗', 'Faturalar': '⚡',
+                'Eğlence': '🎬', 'Sağlık': '🏥', 'Kıyafet': '👕',
+                'Diğer': '📌'
+            };
+
+            const category = document.getElementById('category').value;
+            
+            const newTransaction = {
+                id: Date.now(),
+                type: currentType,
+                description: document.getElementById('description').value,
+                category: category,
+                amount: parseFloat(document.getElementById('amount').value),
+                date: document.getElementById('date').value,
+                icon: iconMap[category] || '📌',
+                color: currentType === 'income' ? '#DCFCE7' : '#FEE2E2'
+            };
+            
+            transactions.unshift(newTransaction);
+            saveTransactions();
+            renderTransactions();
+            closeModal();
+            
+            document.getElementById('transactionForm').reset();
+            
+            // Vibration feedback
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+            
+            alert('✅ İşlem başarıyla eklendi!');
+        }
+
+        function saveTransactions() {
+            localStorage.setItem('paraizi_transactions', JSON.stringify(transactions));
+        }
+
+        function renderTransactions() {
+            const list = document.getElementById('transactionList');
+            const html = transactions.slice(0, 5).map(t => `
+                <div class="transaction-item">
+                    <div class="transaction-icon" style="background: ${t.color};">${t.icon}</div>
+                    <div class="transaction-info">
+                        <div class="transaction-name">${t.description}</div>
+                        <div class="transaction-meta">${t.category} • ${formatDate(t.date)}</div>
+                    </div>
+                    <div class="transaction-amount ${t.type === 'income' ? 'income-color' : 'expense-color'}">
+                        ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
+                    </div>
+                </div>
+            `).join('');
+            list.innerHTML = html || '<div class="loading">Henüz işlem yok</div>';
+
+            // Update all transactions page
+            renderAllTransactions();
+        }
+
+        function renderAllTransactions() {
+            const today = transactions.filter(t => isToday(t.date));
+            const week = transactions.filter(t => isThisWeek(t.date) && !isToday(t.date));
+            const month = transactions.filter(t => isThisMonth(t.date) && !isThisWeek(t.date));
+
+            document.getElementById('todayTransactions').innerHTML = renderTransactionList(today) || '<div class="loading">İşlem yok</div>';
+            document.getElementById('weekTransactions').innerHTML = renderTransactionList(week) || '<div class="loading">İşlem yok</div>';
+            document.getElementById('monthTransactions').innerHTML = renderTransactionList(month) || '<div class="loading">İşlem yok</div>';
+        }
+
+        function renderTransactionList(items) {
+            return items.map(t => `
+                <div class="transaction-item">
+                    <div class="transaction-icon" style="background: ${t.color};">${t.icon}</div>
+                    <div class="transaction-info">
+                        <div class="transaction-name">${t.description}</div>
+                        <div class="transaction-meta">${t.category} • ${formatDate(t.date)}</div>
+                    </div>
+                    <div class="transaction-amount ${t.type === 'income' ? 'income-color' : 'expense-color'}">
+                        ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function isToday(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            return date.toDateString() === today.toDateString();
+        }
+
+        function isThisWeek(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+            return date >= weekAgo && date <= today;
+        }
+
+        function isThisMonth(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            return date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('tr-TR', {
+                style: 'currency',
+                currency: 'TRY',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const diff = Math.floor((today - date) / (1000 * 60 * 60 * 24));
+            
+            if (diff === 0) return 'Bugün';
+            if (diff === 1) return 'Dün';
+            if (diff < 7) return `${diff} gün önce`;
+            
+            return date.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+        }
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+            document.querySelectorAll('[id^="currentTime"]').forEach(el => el.textContent = time);
+        }
+
+        // Initialize
+        renderTransactions();
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
