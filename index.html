@@ -5,141 +5,446 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#6366F1">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366F1'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-size='60' fill='white'%3E💰%3C/text%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366F1'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-size='60' fill='white'%3E💰%3C/text%3E%3C/svg%3E">
-<title>💰 Paraİzi</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366F1'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-size='60'%3E💰%3C/text%3E%3C/svg%3E">
+<title>💰 Paraİzi Pro</title>
 <style>
-body{font-family:system-ui,sans-serif;margin:0;background:#f1f5f9;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.header{background:linear-gradient(135deg,#6366F1,#4F46E5);color:white;padding:30px 20px;text-align:center}
-.logo{font-size:28px;font-weight:bold;margin-bottom:10px}
-.balance{font-size:36px;font-weight:bold;margin:15px 0}
-.stats{display:flex;gap:20px;justify-content:center;margin-top:15px}
-.stat-label{font-size:12px;opacity:0.9}
-.stat-value{font-size:18px;font-weight:600;margin-top:5px}
-.income{color:#10B981}
-.expense{color:#EF4444}
-.content{padding:20px;max-width:600px;margin:0 auto;padding-bottom:80px}
-.card{background:white;padding:20px;border-radius:12px;margin:15px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+:root{--p:#6366F1;--pd:#4F46E5;--s:#10B981;--d:#EF4444;--w:#F59E0B;--bg:#f1f5f9;--c:#fff;--t:#0f172a;--td:#64748b;--b:#e2e8f0}
+body.dark{--p:#818CF8;--bg:#0f172a;--c:#1e293b;--t:#f1f5f9;--td:#94a3b8;--b:#334155}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);transition:all .3s}
+.h{background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;padding:30px 20px;text-align:center;position:relative}
+.h .ic{position:absolute;top:15px;right:15px;display:flex;gap:10px}
+.ib{background:rgba(255,255,255,.2);border:none;width:40px;height:40px;border-radius:10px;color:#fff;font-size:20px;cursor:pointer}
+.bal{font-size:36px;font-weight:bold;margin:15px 0}
+.st{display:flex;gap:20px;justify-content:center;margin-top:15px}
+.stv{font-size:18px;font-weight:600;margin-top:5px}
+.inc{color:var(--s)}
+.exp{color:var(--d)}
+.cn{padding:20px;max-width:600px;margin:0 auto;padding-bottom:80px}
+.cd{background:var(--c);padding:20px;border-radius:12px;margin:15px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .btn{width:100%;padding:15px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin:10px 0}
-.btn-income{background:#10B981;color:white}
-.btn-expense{background:#EF4444;color:white}
-input,select{width:100%;padding:12px;margin:8px 0;border:2px solid #e2e8f0;border-radius:8px;font-size:15px}
+.bp{background:var(--p);color:#fff}
+.bi{background:var(--s);color:#fff}
+.be{background:var(--d);color:#fff}
+.bw{background:var(--w);color:#fff}
+input,select{width:100%;padding:12px;margin:8px 0;border:2px solid var(--b);border-radius:8px;font-size:15px;background:var(--c);color:var(--t)}
 label{font-weight:600;display:block;margin-top:12px}
-.transaction{background:#f8f9fa;padding:15px;border-radius:8px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
-.transaction-amount{font-weight:bold;font-size:16px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;border-top:1px solid #e2e8f0;padding:10px 0;z-index:100}
-.nav-item{flex:1;text-align:center;padding:8px;color:#64748B;font-size:12px;font-weight:600;cursor:pointer}
-.nav-item.active{color:#6366F1}
-.screen{display:none}
-.screen.active{display:block}
+.tr{background:var(--bg);padding:15px;border-radius:8px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
+.bn{position:fixed;bottom:0;left:0;right:0;background:var(--c);display:flex;border-top:1px solid var(--b);padding:10px 0;z-index:100}
+.ni{flex:1;text-align:center;padding:8px;color:var(--td);font-size:12px;font-weight:600;cursor:pointer}
+.ni.act{color:var(--p)}
+.sc{display:none}
+.sc.act{display:block}
+.ch{width:100%;height:200px;margin:20px 0;position:relative}
+.bar{display:inline-block;width:12%;margin:0 2%;background:var(--p);border-radius:4px 4px 0 0;vertical-align:bottom;position:relative}
+.bl{position:absolute;bottom:-25px;left:0;right:0;text-align:center;font-size:11px;color:var(--td)}
+.pg{width:100%;height:8px;background:var(--b);border-radius:10px;overflow:hidden;margin:10px 0}
+.pf{height:100%;background:var(--p);transition:width .3s}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg);border-radius:8px;margin:8px 0}
+.db{background:var(--d);color:#fff;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;font-size:13px}
+.sw{position:relative;display:inline-block;width:60px;height:30px}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.4s;border-radius:30px}
+.sl:before{position:absolute;content:"";height:22px;width:22px;left:4px;bottom:4px;background:#fff;transition:.4s;border-radius:50%}
+input:checked+.sl{background:var(--p)}
+input:checked+.sl:before{transform:translateX(30px)}
+.md{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.md.sh{display:flex}
+.mc{background:var(--c);border-radius:20px;padding:25px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto}
+.nt{position:fixed;top:20px;right:20px;background:var(--c);padding:15px 20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:2000;animation:si .3s;max-width:300px}
+@keyframes si{from{transform:translateX(400px)}to{transform:translateX(0)}}
+.ct{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.ci{flex:1;min-width:140px;background:var(--bg);padding:15px;border-radius:10px;text-align:center}
+h3{margin-bottom:15px}
 </style>
 </head>
 <body>
 
-<div id="homeScreen" class="screen active">
-<div class="header">
-  <div class="logo">💰 Paraİzi</div>
-  <div class="balance" id="balance">₺0</div>
-  <div class="stats">
-    <div><div class="stat-label">Gelir</div><div class="stat-value income" id="income">₺0</div></div>
-    <div><div class="stat-label">Gider</div><div class="stat-value expense" id="expense">₺0</div></div>
+<div id="home" class="sc act">
+<div class="h">
+  <div class="ic">
+    <button class="ib" onclick="not()">🔔</button>
+    <button class="ib" onclick="sh('set')">⚙️</button>
+  </div>
+  <div style="font-size:28px;font-weight:bold;margin-bottom:10px">💰 Paraİzi Pro</div>
+  <div class="bal" id="bal">₺0</div>
+  <div class="st">
+    <div><div style="font-size:12px;opacity:.9">Gelir</div><div class="stv inc" id="inc">₺0</div></div>
+    <div><div style="font-size:12px;opacity:.9">Gider</div><div class="stv exp" id="exps">₺0</div></div>
   </div>
 </div>
 
-<div class="content">
-  <div class="card">
-    <h2>Yeni İşlem Ekle</h2>
+<div class="cn">
+  <div class="cd">
+    <h3>Hızlı İşlem</h3>
     <label>Tip</label>
-    <select id="type" onchange="updateCategories()">
-      <option value="income">Gelir</option>
-      <option value="expense">Gider</option>
+    <select id="ty" onchange="uc()">
+      <option value="income">💰 Gelir</option>
+      <option value="expense">💸 Gider</option>
     </select>
     <label>Açıklama</label>
-    <input type="text" id="desc" placeholder="Örn: Maaş">
+    <input id="ds" placeholder="Örn: Maaş">
     <label>Kategori</label>
-    <select id="category">
+    <select id="ct">
       <option>Maaş</option>
       <option>Freelance</option>
     </select>
     <label>Tutar (₺)</label>
-    <input type="number" id="amount" placeholder="0">
-    <button class="btn btn-income" onclick="add()">Ekle</button>
+    <input type="number" id="am" placeholder="0">
+    <button class="btn bi" onclick="ad()">💾 Kaydet</button>
   </div>
 
-  <div class="card">
-    <h2>Son İşlemler</h2>
-    <div id="list"></div>
-  </div>
-</div>
-</div>
-
-<div id="statsScreen" class="screen">
-<div class="header">
-  <div class="logo">📊 İstatistikler</div>
-</div>
-<div class="content">
-  <div class="card">
-    <h2>Özet</h2>
-    <p>Toplam işlem: <strong id="totalCount">0</strong></p>
-    <p>Ortalama gider: <strong id="avgExpense">₺0</strong></p>
+  <div class="cd">
+    <h3>Son İşlemler</h3>
+    <div id="ls"></div>
   </div>
 </div>
 </div>
 
-<div class="bottom-nav">
-  <div class="nav-item active" onclick="showScreen('homeScreen')">🏠<br>Ana Sayfa</div>
-  <div class="nav-item" onclick="showScreen('statsScreen')">📊<br>İstatistik</div>
+<div id="rep" class="sc">
+<div class="h">
+  <div style="font-size:28px;font-weight:bold">📊 Raporlar</div>
+</div>
+<div class="cn">
+  <div class="cd">
+    <h3>Aylık Özet</h3>
+    <p>Toplam İşlem: <strong id="tt">0</strong></p>
+    <p>Ortalama Günlük: <strong id="avg">₺0</strong></p>
+    <p>En Çok: <strong id="top">-</strong></p>
+  </div>
+
+  <div class="cd">
+    <h3>Kategoriler</h3>
+    <div id="cch" class="ct"></div>
+  </div>
+
+  <div class="cd">
+    <h3>Son 7 Gün</h3>
+    <div class="ch" id="wk"></div>
+  </div>
+</div>
+</div>
+
+<div id="fx" class="sc">
+<div class="h">
+  <div style="font-size:28px;font-weight:bold">📋 Sabit Gider</div>
+</div>
+<div class="cn">
+  <div class="cd">
+    <h3>Sabit Giderlerim</h3>
+    <div id="fl"></div>
+    <button class="btn bp" onclick="af()">➕ Ekle</button>
+  </div>
+
+  <div class="cd">
+    <h3>Özet</h3>
+    <p>Toplam: <strong id="tf">₺0</strong></p>
+    <p>Günlük Limit: <strong id="dl">₺0</strong></p>
+    <div class="pg"><div class="pf" id="lp" style="width:0%"></div></div>
+  </div>
+</div>
+</div>
+
+<div id="set" class="sc">
+<div class="h">
+  <div style="font-size:28px;font-weight:bold">⚙️ Ayarlar</div>
+</div>
+<div class="cn">
+  <div class="cd">
+    <h3>Görünüm</h3>
+    <div style="display:flex;justify-content:space-between;margin:15px 0">
+      <span>🌙 Karanlık Tema</span>
+      <label class="sw"><input type="checkbox" id="th" onchange="tt()"><span class="sl"></span></label>
+    </div>
+  </div>
+
+  <div class="cd">
+    <h3>Bildirimler</h3>
+    <div style="display:flex;justify-content:space-between;margin:15px 0">
+      <span>🔔 Günlük Hatırlatıcı</span>
+      <label class="sw"><input type="checkbox" id="nt" onchange="tn()"><span class="sl"></span></label>
+    </div>
+  </div>
+
+  <div class="cd">
+    <h3>Veri</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn bp" onclick="exp('json')">📄 JSON</button>
+      <button class="btn bp" onclick="exp('csv')">📊 CSV</button>
+    </div>
+    <button class="btn bw" onclick="imp()">📥 Yükle</button>
+    <input type="file" id="if" style="display:none" accept=".json" onchange="hi(event)">
+    <button class="btn be" onclick="cl()">🗑️ Sil</button>
+  </div>
+</div>
+</div>
+
+<div class="bn">
+  <div class="ni act" onclick="sh('home')">🏠<br>Ana Sayfa</div>
+  <div class="ni" onclick="sh('rep')">📊<br>Rapor</div>
+  <div class="ni" onclick="sh('fx')">📋<br>Sabit</div>
+  <div class="ni" onclick="sh('set')">⚙️<br>Ayar</div>
+</div>
+
+<div class="md" id="fm">
+<div class="mc">
+  <h3>Yeni Sabit Gider</h3>
+  <label>Ad</label>
+  <input id="fn" placeholder="Örn: Kira">
+  <label>Tutar (₺)</label>
+  <input type="number" id="fa" placeholder="0">
+  <button class="btn bp" onclick="sv()">💾 Kaydet</button>
+  <button class="btn" onclick="cm()" style="background:var(--bg)">İptal</button>
+</div>
 </div>
 
 <script>
-let data=JSON.parse(localStorage.getItem('paraizi')||'[]');
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  event.target.closest('.nav-item').classList.add('active');
+let d=JSON.parse(localStorage.getItem('p')||'[]');
+let f=JSON.parse(localStorage.getItem('f')||'[]');
+let s=JSON.parse(localStorage.getItem('s')||'{"t":"light","n":true}');
+
+function sh(i){
+  document.querySelectorAll('.sc').forEach(x=>x.classList.remove('act'));
+  document.getElementById(i).classList.add('act');
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('act'));
+  event.target.closest('.ni').classList.add('act');
+  if(i=='rep')rr();
+  if(i=='fx')rf();
 }
-function updateCategories(){
-  let t=document.getElementById('type').value;
-  document.getElementById('category').innerHTML=t=='income'?'<option>Maaş</option><option>Freelance</option>':'<option>Market</option><option>Ulaşım</option><option>Faturalar</option>';
+
+function uc(){
+  let t=document.getElementById('ty').value;
+  document.getElementById('ct').innerHTML=t=='income'?'<option>Maaş</option><option>Freelance</option><option>Yatırım</option>':'<option>Market</option><option>Ulaşım</option><option>Faturalar</option><option>Eğlence</option><option>Sağlık</option>';
 }
-function add(){
-  let t=document.getElementById('type').value;
-  let d=document.getElementById('desc').value;
-  let c=document.getElementById('category').value;
-  let a=parseFloat(document.getElementById('amount').value);
-  if(!d||!a){alert('Lütfen tüm alanları doldurun');return}
-  data.unshift({type:t,desc:d,cat:c,amount:a,date:new Date().toLocaleDateString('tr')});
-  localStorage.setItem('paraizi',JSON.stringify(data));
-  render();
-  document.getElementById('desc').value='';
-  document.getElementById('amount').value='';
+
+function ad(){
+  let t=document.getElementById('ty').value;
+  let ds=document.getElementById('ds').value;
+  let ct=document.getElementById('ct').value;
+  let am=parseFloat(document.getElementById('am').value);
+  if(!ds||!am){sn('⚠️ Lütfen doldur!');return}
+  d.unshift({type:t,desc:ds,cat:ct,amount:am,date:new Date().toISOString()});
+  localStorage.setItem('p',JSON.stringify(d));
+  r();
+  document.getElementById('ds').value='';
+  document.getElementById('am').value='';
+  sn('✅ Eklendi!');
 }
-function render(){
-  let inc=data.filter(x=>x.type=='income').reduce((s,x)=>s+x.amount,0);
-  let exp=data.filter(x=>x.type=='expense').reduce((s,x)=>s+x.amount,0);
-  document.getElementById('income').textContent='₺'+inc.toLocaleString('tr');
-  document.getElementById('expense').textContent='₺'+exp.toLocaleString('tr');
-  document.getElementById('balance').textContent='₺'+(inc-exp).toLocaleString('tr');
-  document.getElementById('list').innerHTML=data.slice(0,10).map(x=>`
-    <div class="transaction">
-      <div><strong>${x.desc}</strong><br><small>${x.cat} • ${x.date}</small></div>
-      <div class="transaction-amount ${x.type}">${x.type=='income'?'+':'-'}₺${x.amount.toLocaleString('tr')}</div>
+
+function r(){
+  let ic=d.filter(x=>x.type=='income').reduce((s,x)=>s+x.amount,0);
+  let ex=d.filter(x=>x.type=='expense').reduce((s,x)=>s+x.amount,0);
+  document.getElementById('inc').textContent='₺'+ic.toLocaleString('tr');
+  document.getElementById('exps').textContent='₺'+ex.toLocaleString('tr');
+  document.getElementById('bal').textContent='₺'+(ic-ex).toLocaleString('tr');
+  document.getElementById('ls').innerHTML=d.slice(0,10).map((x,i)=>`
+    <div class="tr">
+      <div><strong>${x.desc}</strong><br><small>${x.cat}</small></div>
+      <div style="text-align:right">
+        <div style="font-weight:bold;font-size:16px" class="${x.type=='income'?'inc':'exp'}">${x.type=='income'?'+':'-'}₺${x.amount.toLocaleString('tr')}</div>
+        <button onclick="de(${i})" style="background:transparent;border:none;color:var(--d);cursor:pointer;font-size:12px">🗑️</button>
+      </div>
     </div>
-  `).join('')||'<p style="text-align:center;color:#888">Henüz işlem yok</p>';
+  `).join('')||'<p style="text-align:center;color:var(--td);padding:20px">İşlem yok</p>';
+}
+
+function de(i){
+  if(confirm('Silmek istediğinize emin misiniz?')){
+    d.splice(i,1);
+    localStorage.setItem('p',JSON.stringify(d));
+    r();
+    sn('🗑️ Silindi');
+  }
+}
+
+function rr(){
+  let ex=d.filter(x=>x.type=='expense');
+  document.getElementById('tt').textContent=d.length;
+  let avg=ex.length?ex.reduce((s,x)=>s+x.amount,0)/30:0;
+  document.getElementById('avg').textContent='₺'+Math.round(avg).toLocaleString('tr');
   
-  let expenses=data.filter(x=>x.type=='expense');
-  document.getElementById('totalCount').textContent=data.length;
-  document.getElementById('avgExpense').textContent='₺'+(expenses.length?Math.round(expenses.reduce((s,x)=>s+x.amount,0)/expenses.length):0).toLocaleString('tr');
+  let cm={};
+  ex.forEach(x=>{cm[x.cat]=(cm[x.cat]||0)+x.amount});
+  let tc=Object.keys(cm).sort((a,b)=>cm[b]-cm[a])[0]||'-';
+  document.getElementById('top').textContent=tc+(cm[tc]?' (₺'+cm[tc].toLocaleString('tr')+')':'');
+  
+  let ch='';
+  let l7=[];
+  for(let i=6;i>=0;i--){
+    let dt=new Date();
+    dt.setDate(dt.getDate()-i);
+    let dd=ex.filter(x=>new Date(x.date).toDateString()==dt.toDateString());
+    let to=dd.reduce((s,x)=>s+x.amount,0);
+    l7.push({day:dt.toLocaleDateString('tr',{weekday:'short'}),amount:to});
+  }
+  let mx=Math.max(...l7.map(x=>x.amount),100);
+  l7.forEach(x=>{
+    let h=Math.max((x.amount/mx)*180,5);
+    ch+=`<div class="bar" style="height:${h}px"><div class="bl">${x.day}<br>₺${x.amount}</div></div>`;
+  });
+  document.getElementById('wk').innerHTML=ch;
+  
+  let cch='';
+  Object.keys(cm).forEach(c=>{
+    let ic={'Market':'🛒','Ulaşım':'🚗','Faturalar':'⚡','Eğlence':'🎬','Sağlık':'🏥'};
+    cch+=`<div class="ci"><div style="font-size:30px;margin-bottom:8px">${ic[c]||'📌'}</div><div style="font-size:13px;color:var(--td)">${c}</div><div style="font-size:18px;font-weight:bold;margin-top:5px" class="exp">₺${cm[c].toLocaleString('tr')}</div></div>`;
+  });
+  document.getElementById('cch').innerHTML=cch||'<p style="text-align:center;color:var(--td)">Veri yok</p>';
 }
-if(data.length==0){
-  data=[{type:'income',desc:'Aylık Maaş',cat:'Maaş',amount:45000,date:'1 Oca 2026'}];
-  localStorage.setItem('paraizi',JSON.stringify(data));
+
+function rf(){
+  let to=f.reduce((s,x)=>s+x.amount,0);
+  document.getElementById('tf').textContent='₺'+to.toLocaleString('tr');
+  
+  let ic=d.filter(x=>x.type=='income').reduce((s,x)=>s+x.amount,0);
+  let dl=(ic-to)/30;
+  document.getElementById('dl').textContent='₺'+Math.round(dl).toLocaleString('tr');
+  
+  let td=d.filter(x=>x.type=='expense'&&new Date(x.date).toDateString()==new Date().toDateString()).reduce((s,x)=>s+x.amount,0);
+  let pr=dl>0?Math.min((td/dl)*100,100):0;
+  document.getElementById('lp').style.width=pr+'%';
+  
+  document.getElementById('fl').innerHTML=f.map((x,i)=>`
+    <div class="fi">
+      <div><strong>${x.name}</strong></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="font-weight:bold">₺${x.amount.toLocaleString('tr')}</span>
+        <button class="db" onclick="df(${i})">🗑️</button>
+      </div>
+    </div>
+  `).join('')||'<p style="text-align:center;color:var(--td);padding:20px">Sabit gider yok</p>';
 }
-render();
+
+function af(){
+  document.getElementById('fm').classList.add('sh');
+}
+
+function cm(){
+  document.getElementById('fm').classList.remove('sh');
+}
+
+function sv(){
+  let n=document.getElementById('fn').value;
+  let a=parseFloat(document.getElementById('fa').value);
+  if(!n||!a){sn('⚠️ Doldur!');return}
+  f.push({name:n,amount:a});
+  localStorage.setItem('f',JSON.stringify(f));
+  rf();
+  cm();
+  document.getElementById('fn').value='';
+  document.getElementById('fa').value='';
+  sn('✅ Eklendi!');
+}
+
+function df(i){
+  if(confirm('Silmek istediğinize emin misiniz?')){
+    f.splice(i,1);
+    localStorage.setItem('f',JSON.stringify(f));
+    rf();
+    sn('🗑️ Silindi');
+  }
+}
+
+function tt(){
+  let dk=document.getElementById('th').checked;
+  document.body.classList.toggle('dark',dk);
+  s.t=dk?'dark':'light';
+  localStorage.setItem('s',JSON.stringify(s));
+}
+
+function tn(){
+  s.n=document.getElementById('nt').checked;
+  localStorage.setItem('s',JSON.stringify(s));
+  if(s.n)sn('🔔 Açıldı!');
+}
+
+function not(){
+  sn('🔔 Ayarlara gidin');
+}
+
+function exp(ft){
+  if(ft=='json'){
+    let b=new Blob([JSON.stringify({t:d,f,s},null,2)],{type:'application/json'});
+    let u=URL.createObjectURL(b);
+    let a=document.createElement('a');
+    a.href=u;
+    a.download='paraizi_'+new Date().toISOString().split('T')[0]+'.json';
+    a.click();
+    sn('📄 İndirildi!');
+  }else if(ft=='csv'){
+    let c='Tarih,Tip,Açıklama,Kategori,Tutar\n';
+    d.forEach(x=>{
+      c+=`${new Date(x.date).toLocaleDateString('tr')},${x.type=='income'?'Gelir':'Gider'},${x.desc},${x.cat},${x.amount}\n`;
+    });
+    let b=new Blob([c],{type:'text/csv'});
+    let u=URL.createObjectURL(b);
+    let a=document.createElement('a');
+    a.href=u;
+    a.download='paraizi_'+new Date().toISOString().split('T')[0]+'.csv';
+    a.click();
+    sn('📊 İndirildi!');
+  }
+}
+
+function imp(){
+  document.getElementById('if').click();
+}
+
+function hi(e){
+  let fl=e.target.files[0];
+  if(!fl)return;
+  let rd=new FileReader();
+  rd.onload=function(e){
+    try{
+      let im=JSON.parse(e.target.result);
+      if(confirm('Mevcut veriler silinip yeni veriler yüklenecek?')){
+        d=im.t||[];
+        f=im.f||[];
+        s=im.s||s;
+        localStorage.setItem('p',JSON.stringify(d));
+        localStorage.setItem('f',JSON.stringify(f));
+        localStorage.setItem('s',JSON.stringify(s));
+        r();
+        sn('✅ Yüklendi!');
+      }
+    }catch(err){
+      sn('❌ Geçersiz!');
+    }
+  };
+  rd.readAsText(fl);
+}
+
+function cl(){
+  if(confirm('TÜM VERİLERİ SİLMEK İSTEDİĞİNİZE EMİN MİSİNİZ?')){
+    if(confirm('Son kez soruyorum!')){
+      localStorage.clear();
+      location.reload();
+    }
+  }
+}
+
+function sn(m){
+  let n=document.createElement('div');
+  n.className='nt';
+  n.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><div style="flex:1">${m}</div><button onclick="this.parentElement.parentElement.remove()" style="background:transparent;border:none;font-size:18px;cursor:pointer">✕</button></div>`;
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),3000);
+}
+
+if(d.length==0){
+  d=[{type:'income',desc:'Maaş',cat:'Maaş',amount:45000,date:new Date().toISOString()},{type:'expense',desc:'Market',cat:'Market',amount:850,date:new Date().toISOString()}];
+  localStorage.setItem('p',JSON.stringify(d));
+}
+
+if(s.t=='dark'){
+  document.body.classList.add('dark');
+  document.getElementById('th').checked=true;
+}
+document.getElementById('nt').checked=s.n;
+
+r();
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
