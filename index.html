@@ -185,6 +185,24 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
 .crypto-up{color:var(--theme-success)}
 .crypto-down{color:var(--theme-danger)}
 
+/* Login Screen */
+.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--theme-primary) 0%,var(--theme-primary-dark) 100%);display:flex;align-items:center;justify-content:center;z-index:10001;padding:20px}
+.login-container{width:100%;max-width:400px;text-align:center}
+.login-logo{font-size:80px;margin-bottom:20px;animation:bounce 2s infinite}
+.login-title{font-size:42px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-1px}
+.login-subtitle{font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:40px}
+.login-form{background:rgba(255,255,255,0.95);border-radius:24px;padding:30px;backdrop-filter:blur(10px)}
+.form-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:25px}
+.form-tab{padding:12px;background:var(--bg);border-radius:10px;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--text)}
+.form-tab.active{background:var(--theme-primary);color:#fff}
+.login-inputs{display:flex;flex-direction:column;gap:12px}
+.login-input{padding:16px;border:2px solid var(--border);border-radius:12px;font-size:15px;outline:none;transition:all 0.2s}
+.login-input:focus{border-color:var(--theme-primary);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
+.login-btn{padding:16px;background:linear-gradient(135deg,var(--theme-primary),var(--theme-primary-dark));color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;transition:all 0.2s}
+.login-btn:active{transform:scale(0.98)}
+.login-footer{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.login-option{color:var(--theme-primary);font-weight:600;cursor:pointer;font-size:14px}
+
 /* PIN Lock */
 .pin-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--theme-primary),var(--theme-primary-dark));z-index:10000;display:none;align-items:center;justify-content:center}
 .pin-screen.show{display:flex}
@@ -234,8 +252,35 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
   </div>
 </div>
 
+<!-- Login/Register Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-container">
+    <div class="login-logo">💰</div>
+    <div class="login-title">Paraİzi</div>
+    <div class="login-subtitle">Kişisel Finans Yöneticisi</div>
+    
+    <div class="login-form" id="loginForm">
+      <div class="form-tabs">
+        <div class="form-tab active" id="loginTab" onclick="switchTab('login')">Giriş Yap</div>
+        <div class="form-tab" id="registerTab" onclick="switchTab('register')">Kayıt Ol</div>
+      </div>
+      
+      <div class="login-inputs" id="loginInputs">
+        <input type="text" class="login-input" id="loginName" placeholder="👤 Ad Soyad" style="display:none">
+        <input type="email" class="login-input" id="loginEmail" placeholder="✉️ E-posta">
+        <input type="password" class="login-input" id="loginPassword" placeholder="🔒 Şifre">
+        <button class="login-btn" onclick="handleAuth()">Giriş Yap</button>
+      </div>
+      
+      <div class="login-footer">
+        <div class="login-option" onclick="skipLogin()">Misafir olarak devam et →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- PIN Lock Screen -->
-<div class="pin-screen" id="pinScreen">
+<div class="pin-screen" id="pinScreen" style="display:none">
   <div class="pin-container">
     <div class="pin-title">PIN Girin</div>
     <div class="pin-dots">
@@ -429,6 +474,17 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
       <button class="btn btn-outline mt-1" onclick="removePIN()">PIN Kodunu Kaldır</button>
     </div>
 
+    <!-- Account -->
+    <div class="card">
+      <div class="card-title">👤 Hesap</div>
+      <div style="padding:15px;background:var(--bg);border-radius:12px;margin-bottom:15px">
+        <div style="font-size:14px;color:var(--text-dim);margin-bottom:4px">Kullanıcı</div>
+        <div style="font-weight:700;font-size:16px" id="userName">-</div>
+        <div style="font-size:13px;color:var(--text-dim);margin-top:4px" id="userEmail">-</div>
+      </div>
+      <button class="btn btn-danger" onclick="logout()">🚪 Çıkış Yap</button>
+    </div>
+
     <!-- Data Export -->
     <div class="card">
       <div class="card-title">💾 Veri Yönetimi</div>
@@ -481,6 +537,7 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
 
 <script>
 // Data
+let currentUser=JSON.parse(localStorage.getItem('paraizi_user')||'null');
 let data=JSON.parse(localStorage.getItem('paraizi_mega')||'[]');
 let goals=JSON.parse(localStorage.getItem('paraizi_goals')||'[]');
 let settings=JSON.parse(localStorage.getItem('paraizi_settings')||'{"theme":"default","pin":"","lang":"tr"}');
@@ -491,6 +548,7 @@ let selectedCategory='Market';
 let currentMonth=new Date();
 let pin='';
 let cryptoPrices={};
+let authMode='login';
 
 const categories={
   expense:[
@@ -523,10 +581,102 @@ const achievementDefs=[
   {id:'goal',name:'Hedef Master',icon:'🎯',desc:'Bir hedefi tamamla',check:()=>goals.some(g=>g.current>=g.target)}
 ];
 
-function init(){
+function switchTab(mode){
+  authMode=mode;
+  document.getElementById('loginTab').classList.toggle('active',mode=='login');
+  document.getElementById('registerTab').classList.toggle('active',mode=='register');
+  
+  const nameInput=document.getElementById('loginName');
+  const btn=document.querySelector('.login-btn');
+  
+  if(mode=='register'){
+    nameInput.style.display='block';
+    btn.textContent='Kayıt Ol';
+  }else{
+    nameInput.style.display='none';
+    btn.textContent='Giriş Yap';
+  }
+}
+
+function handleAuth(){
+  const email=document.getElementById('loginEmail').value;
+  const password=document.getElementById('loginPassword').value;
+  const name=document.getElementById('loginName').value;
+  
+  if(!email||!password){
+    showNotif('⚠️ Lütfen tüm alanları doldurun!','warning');
+    return;
+  }
+  
+  if(authMode=='register'){
+    if(!name){
+      showNotif('⚠️ Lütfen adınızı girin!','warning');
+      return;
+    }
+    
+    // Kayıt
+    currentUser={
+      name,
+      email,
+      password,
+      joinDate:new Date().toISOString()
+    };
+    
+    localStorage.setItem('paraizi_user',JSON.stringify(currentUser));
+    showNotif('✅ Kayıt başarılı! Hoş geldiniz '+name+'!','success');
+    closeLoginScreen();
+  }else{
+    // Giriş
+    const savedUser=JSON.parse(localStorage.getItem('paraizi_user')||'null');
+    
+    if(savedUser&&savedUser.email==email&&savedUser.password==password){
+      currentUser=savedUser;
+      showNotif('✅ Hoş geldiniz '+savedUser.name+'!','success');
+      closeLoginScreen();
+    }else{
+      showNotif('❌ E-posta veya şifre hatalı!','danger');
+    }
+  }
+}
+
+function skipLogin(){
+  if(confirm('Misafir olarak devam etmek istediğinize emin misiniz? Verileriniz bu cihazda saklanacak.')){
+    currentUser={
+      name:'Misafir',
+      email:'guest@paraizi.app',
+      guest:true
+    };
+    localStorage.setItem('paraizi_user',JSON.stringify(currentUser));
+    closeLoginScreen();
+  }
+}
+
+function closeLoginScreen(){
+  document.getElementById('loginScreen').style.display='none';
+  
   // Check PIN
   if(settings.pin){
-    document.getElementById('pinScreen').classList.add('show');
+    document.getElementById('pinScreen').style.display='flex';
+  }
+}
+
+function logout(){
+  if(confirm('Çıkış yapmak istediğinize emin misiniz?')){
+    localStorage.removeItem('paraizi_user');
+    location.reload();
+  }
+}
+
+function init(){
+  // Check if user logged in
+  if(!currentUser){
+    document.getElementById('loginScreen').style.display='flex';
+    return;
+  }
+  
+  // Check PIN
+  if(settings.pin){
+    document.getElementById('pinScreen').style.display='flex';
   }
   
   // Apply theme
@@ -551,6 +701,13 @@ function init(){
   setInterval(()=>{
     fetchCryptoPrices();
   },60000); // Update every minute
+  
+  // Show welcome message
+  if(currentUser.name){
+    setTimeout(()=>{
+      showNotif('👋 Merhaba '+currentUser.name+'!','info');
+    },3000);
+  }
 }
 
 function showScreen(id){
@@ -635,6 +792,12 @@ function render(){
   document.getElementById('monthExpense').textContent='₺'+expense.toLocaleString('tr');
   document.getElementById('streakDays').textContent=calculateStreak();
   document.getElementById('userLevel').textContent=Math.floor(data.length/10)+1;
+  
+  // Update user info
+  if(currentUser){
+    if(document.getElementById('userName'))document.getElementById('userName').textContent=currentUser.name||'Misafir';
+    if(document.getElementById('userEmail'))document.getElementById('userEmail').textContent=currentUser.email||'-';
+  }
   
   document.getElementById('transactionList').innerHTML=data.slice(0,5).map(t=>{
     const cat=categories[t.type].find(c=>c.name==t.cat)||{icon:'📌'};
