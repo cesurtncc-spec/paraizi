@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#6366F1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#40E0D0">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366F1'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-size='60'%3E💰%3C/text%3E%3C/svg%3E">
-<title>💰 Paraİzi MEGA</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2340E0D0'/%3E%3Cstop offset='100%25' style='stop-color:%231E90FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ccircle cx='50' cy='40' r='25' fill='white'/%3E%3Ctext x='50' y='50' text-anchor='middle' font-size='30' font-weight='bold' fill='%231E90FF'%3E₺%3C/text%3E%3Crect x='35' y='65' width='6' height='15' fill='white'/%3E%3Crect x='44' y='60' width='6' height='20' fill='white'/%3E%3Crect x='53' y='55' width='6' height='25' fill='white'/%3E%3Crect x='62' y='70' width='6' height='10' fill='white'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2340E0D0'/%3E%3Cstop offset='100%25' style='stop-color:%231E90FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='40' fill='url(%23g)'/%3E%3Ccircle cx='90' cy='72' r='45' fill='white'/%3E%3Ctext x='90' y='90' text-anchor='middle' font-size='54' font-weight='bold' fill='%231E90FF'%3E₺%3C/text%3E%3Crect x='63' y='117' width='11' height='27' fill='white'/%3E%3Crect x='79' y='108' width='11' height='36' fill='white'/%3E%3Crect x='95' y='99' width='11' height='45' fill='white'/%3E%3Crect x='111' y='126' width='11' height='18' fill='white'/%3E%3C/svg%3E">
+<title>💰 Paraİzi</title>
 <style>
 :root{
 --theme-primary:#6366F1;
@@ -399,30 +401,6 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
   </div>
 
   <div class="content">
-    <!-- Crypto Ticker -->
-    <div class="crypto-ticker" id="cryptoTicker">
-      <div class="crypto-item">
-        <div class="crypto-symbol">BTC</div>
-        <div class="crypto-price">$--</div>
-        <div class="crypto-change crypto-up">--</div>
-      </div>
-      <div class="crypto-item">
-        <div class="crypto-symbol">ETH</div>
-        <div class="crypto-price">$--</div>
-        <div class="crypto-change crypto-down">--</div>
-      </div>
-      <div class="crypto-item">
-        <div class="crypto-symbol">USD/TRY</div>
-        <div class="crypto-price">₺--</div>
-        <div class="crypto-change crypto-up">--</div>
-      </div>
-      <div class="crypto-item">
-        <div class="crypto-symbol">ALTIN</div>
-        <div class="crypto-price">₺--</div>
-        <div class="crypto-change crypto-up">--</div>
-      </div>
-    </div>
-
     <!-- AI Insights -->
     <div id="aiInsights"></div>
 
@@ -843,9 +821,6 @@ function init(){
   // Start notification scheduler
   startNotificationScheduler();
   
-  // Load crypto prices
-  fetchCryptoPrices();
-  
   // Render
   render();
   loadCategories();
@@ -857,9 +832,14 @@ function init(){
   // Daily check
   checkDailyStreak();
   
-  setInterval(()=>{
-    fetchCryptoPrices();
-  },60000); // Update every minute
+  // Update when coming online/offline
+  window.addEventListener('online',()=>{
+    showNotif('🌐 İnternet bağlantısı yeniden kuruldu!','success');
+  });
+  
+  window.addEventListener('offline',()=>{
+    showNotif('📡 İnternet bağlantısı kesildi. Offline moddasınız.','warning');
+  });
   
   // Show welcome message only on first login of the day
   const lastLogin=localStorage.getItem('paraizi_last_login');
@@ -1338,32 +1318,113 @@ function renderGoals(){
 
 async function fetchCryptoPrices(){
   try{
-    // Mock data - gerçek API entegrasyonu için CoinGecko veya başka API kullanılabilir
+    // Check if online
+    if(!navigator.onLine){
+      console.log('Offline - using cached prices');
+      return;
+    }
+    
+    // Fetch real crypto prices from CoinGecko API (Free)
+    const cryptoResponse=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
+    const cryptoData=await cryptoResponse.json();
+    
+    // Fetch USD/TRY from free exchange rate API
+    const forexResponse=await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const forexData=await forexResponse.json();
+    const usdTry=forexData.rates.TRY;
+    
+    // Update prices object
     cryptoPrices={
-      btc:{price:98245,change:2.5},
-      eth:{price:3521,change:-1.2},
-      usdtry:{price:34.25,change:0.8},
-      gold:{price:2850,change:1.5}
+      btc:{
+        price:Math.round(cryptoData.bitcoin.usd),
+        change:cryptoData.bitcoin.usd_24h_change.toFixed(1)
+      },
+      eth:{
+        price:Math.round(cryptoData.ethereum.usd),
+        change:cryptoData.ethereum.usd_24h_change.toFixed(1)
+      },
+      usdtry:{
+        price:usdTry.toFixed(2),
+        change:0.5 // Exchange rates change slowly
+      },
+      gold:{
+        price:2850, // Gold price is harder to get free, using approximate
+        change:0.8
+      }
     };
     
-    const ticker=document.getElementById('cryptoTicker');
-    ticker.children[0].children[1].textContent='$'+cryptoPrices.btc.price.toLocaleString('en');
-    ticker.children[0].children[2].textContent='+'+ cryptoPrices.btc.change+'%';
-    ticker.children[0].children[2].className='crypto-change crypto-up';
+    // Update UI
+    updateCryptoTicker();
     
-    ticker.children[1].children[1].textContent='$'+cryptoPrices.eth.price.toLocaleString('en');
-    ticker.children[1].children[2].textContent=cryptoPrices.eth.change+'%';
-    ticker.children[1].children[2].className='crypto-change crypto-down';
+    // Cache the prices
+    localStorage.setItem('paraizi_crypto_cache',JSON.stringify({
+      data:cryptoPrices,
+      timestamp:Date.now()
+    }));
     
-    ticker.children[2].children[1].textContent='₺'+cryptoPrices.usdtry.price.toFixed(2);
-    ticker.children[2].children[2].textContent='+'+cryptoPrices.usdtry.change+'%';
-    ticker.children[2].children[2].className='crypto-change crypto-up';
+  }catch(error){
+    console.log('Error fetching prices:',error);
     
-    ticker.children[3].children[1].textContent='₺'+cryptoPrices.gold.price.toLocaleString('tr');
-    ticker.children[3].children[2].textContent='+'+cryptoPrices.gold.change+'%';
-    ticker.children[3].children[2].className='crypto-change crypto-up';
-  }catch(e){
-    console.log('Crypto prices update failed');
+    // Try to use cached data
+    const cached=localStorage.getItem('paraizi_crypto_cache');
+    if(cached){
+      const cachedData=JSON.parse(cached);
+      // Use cache if less than 5 minutes old
+      if(Date.now()-cachedData.timestamp<300000){
+        cryptoPrices=cachedData.data;
+        updateCryptoTicker();
+        console.log('Using cached crypto prices');
+      }
+    }
+    
+    // Fallback to approximate values if no cache
+    if(!cryptoPrices.btc){
+      cryptoPrices={
+        btc:{price:95000,change:2.5},
+        eth:{price:3400,change:-1.2},
+        usdtry:{price:34.50,change:0.5},
+        gold:{price:2850,change:0.8}
+      };
+      updateCryptoTicker();
+    }
+  }
+}
+
+function updateCryptoTicker(){
+  // BTC
+  const btcPrice=document.getElementById('btcPrice');
+  const btcChange=document.getElementById('btcChange');
+  if(btcPrice){
+    btcPrice.textContent='$'+cryptoPrices.btc.price.toLocaleString('en');
+    btcChange.textContent=(cryptoPrices.btc.change>0?'+':'')+cryptoPrices.btc.change+'%';
+    btcChange.className='crypto-change '+(cryptoPrices.btc.change>0?'crypto-up':'crypto-down');
+  }
+  
+  // ETH
+  const ethPrice=document.getElementById('ethPrice');
+  const ethChange=document.getElementById('ethChange');
+  if(ethPrice){
+    ethPrice.textContent='$'+cryptoPrices.eth.price.toLocaleString('en');
+    ethChange.textContent=(cryptoPrices.eth.change>0?'+':'')+cryptoPrices.eth.change+'%';
+    ethChange.className='crypto-change '+(cryptoPrices.eth.change>0?'crypto-up':'crypto-down');
+  }
+  
+  // USD/TRY
+  const usdPrice=document.getElementById('usdPrice');
+  const usdChange=document.getElementById('usdChange');
+  if(usdPrice){
+    usdPrice.textContent='₺'+cryptoPrices.usdtry.price;
+    usdChange.textContent='+'+cryptoPrices.usdtry.change+'%';
+    usdChange.className='crypto-change crypto-up';
+  }
+  
+  // GOLD
+  const goldPrice=document.getElementById('goldPrice');
+  const goldChange=document.getElementById('goldChange');
+  if(goldPrice){
+    goldPrice.textContent='₺'+cryptoPrices.gold.price.toLocaleString('tr');
+    goldChange.textContent='+'+cryptoPrices.gold.change+'%';
+    goldChange.className='crypto-change crypto-up';
   }
 }
 
