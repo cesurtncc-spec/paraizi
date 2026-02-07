@@ -32,9 +32,11 @@ body.theme-purple{--theme-primary:#A855F7;--theme-primary-dark:#9333EA}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);transition:all 0.3s;overflow-x:hidden}
 
 /* Splash Screen */
-.splash{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--theme-primary) 0%,var(--theme-primary-dark) 100%);display:flex;align-items:center;justify-content:center;z-index:9999;animation:splashFade 0.5s 2.5s forwards}
+.splash{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#40E0D0 0%,#1E90FF 100%);display:flex;align-items:center;justify-content:center;z-index:9999;animation:splashFade 0.5s 2.5s forwards}
 .splash-content{text-align:center;animation:splashZoom 0.8s ease-out}
 .splash-logo{font-size:120px;margin-bottom:20px;animation:bounce 1s infinite alternate}
+.splash-logo-img{width:140px;height:140px;margin:0 auto 20px;animation:bounce 2s infinite}
+.splash-logo-img svg{width:100%;height:100%;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3))}
 .splash-title{font-size:48px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:10px;animation:slideUp 0.6s 0.3s both}
 .splash-subtitle{font-size:16px;color:rgba(255,255,255,0.8);font-weight:500;animation:slideUp 0.6s 0.5s both}
 .splash-loader{width:60px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;margin:30px auto 0;overflow:hidden;position:relative}
@@ -186,9 +188,11 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
 .crypto-down{color:var(--theme-danger)}
 
 /* Login Screen */
-.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--theme-primary) 0%,var(--theme-primary-dark) 100%);display:flex;align-items:center;justify-content:center;z-index:10001;padding:20px}
+.login-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#40E0D0 0%,#1E90FF 100%);display:flex;align-items:center;justify-content:center;z-index:10001;padding:20px}
 .login-container{width:100%;max-width:400px;text-align:center}
 .login-logo{font-size:80px;margin-bottom:20px;animation:bounce 2s infinite}
+.login-logo-img{width:100px;height:100px;margin:0 auto 20px;animation:bounce 2s infinite}
+.login-logo-img svg{width:100%;height:100%;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3))}
 .login-title{font-size:42px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-1px}
 .login-subtitle{font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:40px}
 .login-form{background:rgba(255,255,255,0.95);border-radius:24px;padding:30px;backdrop-filter:blur(10px)}
@@ -245,7 +249,23 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
 <!-- Splash Screen -->
 <div class="splash">
   <div class="splash-content">
-    <div class="splash-logo">💰</div>
+    <div class="splash-logo-img">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#40E0D0;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1E90FF;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" rx="20" fill="url(#grad1)"/>
+        <circle cx="50" cy="40" r="25" fill="white"/>
+        <text x="50" y="50" text-anchor="middle" font-size="30" font-weight="bold" fill="#1E90FF">₺</text>
+        <rect x="35" y="65" width="6" height="15" fill="white"/>
+        <rect x="44" y="60" width="6" height="20" fill="white"/>
+        <rect x="53" y="55" width="6" height="25" fill="white"/>
+        <rect x="62" y="70" width="6" height="10" fill="white"/>
+      </svg>
+    </div>
     <div class="splash-title">Paraİzi</div>
     <div class="splash-subtitle">Kişisel Finans Yöneticisi MEGA</div>
     <div class="splash-loader"></div>
@@ -255,7 +275,23 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
 <!-- Login/Register Screen -->
 <div class="login-screen" id="loginScreen">
   <div class="login-container">
-    <div class="login-logo">💰</div>
+    <div class="login-logo-img">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradLogin" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#40E0D0;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1E90FF;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100" height="100" rx="20" fill="url(#gradLogin)"/>
+        <circle cx="50" cy="40" r="25" fill="white"/>
+        <text x="50" y="50" text-anchor="middle" font-size="30" font-weight="bold" fill="#1E90FF">₺</text>
+        <rect x="35" y="65" width="6" height="15" fill="white"/>
+        <rect x="44" y="60" width="6" height="20" fill="white"/>
+        <rect x="53" y="55" width="6" height="25" fill="white"/>
+        <rect x="62" y="70" width="6" height="10" fill="white"/>
+      </svg>
+    </div>
     <div class="login-title">Paraİzi</div>
     <div class="login-subtitle">Kişisel Finans Yöneticisi</div>
     
@@ -314,7 +350,22 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
   <div class="header">
     <div class="header-top">
       <div class="logo">
-        💰 Paraİzi
+        <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:8px">
+          <defs>
+            <linearGradient id="gradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#40E0D0;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#1E90FF;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect width="100" height="100" rx="20" fill="url(#gradHeader)"/>
+          <circle cx="50" cy="40" r="25" fill="white"/>
+          <text x="50" y="50" text-anchor="middle" font-size="30" font-weight="bold" fill="#1E90FF">₺</text>
+          <rect x="35" y="65" width="6" height="15" fill="white"/>
+          <rect x="44" y="60" width="6" height="20" fill="white"/>
+          <rect x="53" y="55" width="6" height="25" fill="white"/>
+          <rect x="62" y="70" width="6" height="10" fill="white"/>
+        </svg>
+        Paraİzi
         <span class="level-badge">⭐ Seviye <span id="userLevel">1</span></span>
       </div>
       <div class="header-icons">
@@ -455,6 +506,91 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
     <div class="logo">⚙️ Ayarlar</div>
   </div>
   <div class="content">
+    <!-- Notifications Settings -->
+    <div class="card">
+      <div class="card-title">🔔 Bildirim Ayarları</div>
+      
+      <div style="background:var(--bg);padding:15px;border-radius:12px;margin-bottom:15px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">📊 Günlük Özet</div>
+            <div style="font-size:13px;color:var(--text-dim)">Her akşam 20:00'de</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="dailySummaryToggle" onchange="toggleNotification('dailySummary')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">☕ Sabah Hatırlatıcısı</div>
+            <div style="font-size:13px;color:var(--text-dim)">Her sabah 09:00'da</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="morningReminderToggle" onchange="toggleNotification('morningReminder')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">🍽️ Öğle Hatırlatıcısı</div>
+            <div style="font-size:13px;color:var(--text-dim)">Her gün 12:30'da</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="lunchReminderToggle" onchange="toggleNotification('lunchReminder')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">🌙 Akşam Hatırlatıcısı</div>
+            <div style="font-size:13px;color:var(--text-dim)">Her akşam 21:00'de</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="eveningReminderToggle" onchange="toggleNotification('eveningReminder')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">💰 Bütçe Uyarıları</div>
+            <div style="font-size:13px;color:var(--text-dim)">Limit aşımlarında</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="budgetAlertsToggle" checked onchange="toggleNotification('budgetAlerts')">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px">🔥 Streak Uyarıları</div>
+            <div style="font-size:13px;color:var(--text-dim)">Streak kaybetmeden önce</div>
+          </div>
+          <label class="theme-switch">
+            <input type="checkbox" id="streakAlertsToggle" checked onchange="toggleNotification('streakAlerts')">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" onclick="requestNotificationPermission()">
+        🔔 Bildirimleri Etkinleştir
+      </button>
+      
+      <button class="btn btn-outline" onclick="testNotification()" style="margin-top:10px">
+        ✅ Test Bildirimi Gönder
+      </button>
+      
+      <div style="margin-top:15px;padding:12px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--text-dim)">
+        💡 <strong>İpucu:</strong> Bildirimlerin çalışması için tarayıcı izni gereklidir. İlk kullanımda "İzin Ver" butonuna tıklayın.
+      </div>
+    </div>
+
     <!-- Theme Selection -->
     <div class="card">
       <div class="card-title">🎨 Tema Seçimi</div>
@@ -482,7 +618,8 @@ label{font-weight:600;display:block;margin-top:12px;font-size:14px}
         <div style="font-weight:700;font-size:16px" id="userName">-</div>
         <div style="font-size:13px;color:var(--text-dim);margin-top:4px" id="userEmail">-</div>
       </div>
-      <button class="btn btn-danger" onclick="logout()">🚪 Çıkış Yap</button>
+      <button class="btn btn-warning" onclick="logout()">🔄 Hesap Değiştir</button>
+      <button class="btn btn-danger" onclick="deleteAccount()" style="margin-top:10px">🗑️ Hesabı Sil</button>
     </div>
 
     <!-- Data Export -->
@@ -542,6 +679,7 @@ let data=JSON.parse(localStorage.getItem('paraizi_mega')||'[]');
 let goals=JSON.parse(localStorage.getItem('paraizi_goals')||'[]');
 let settings=JSON.parse(localStorage.getItem('paraizi_settings')||'{"theme":"default","pin":"","lang":"tr"}');
 let achievements=JSON.parse(localStorage.getItem('paraizi_achievements')||'[]');
+let notifications=JSON.parse(localStorage.getItem('paraizi_notifications')||'{"dailySummary":false,"morningReminder":false,"lunchReminder":false,"eveningReminder":false,"budgetAlerts":true,"streakAlerts":true}');
 
 let currentType='expense';
 let selectedCategory='Market';
@@ -549,6 +687,7 @@ let currentMonth=new Date();
 let pin='';
 let cryptoPrices={};
 let authMode='login';
+let notificationInterval=null;
 
 const categories={
   expense:[
@@ -661,18 +800,32 @@ function closeLoginScreen(){
 }
 
 function logout(){
-  if(confirm('Çıkış yapmak istediğinize emin misiniz?')){
-    localStorage.removeItem('paraizi_user');
-    location.reload();
+  if(confirm('Çıkış yapmak istediğinize emin misiniz?\n\nVerileriniz silinmeyecek, sadece giriş ekranına döneceksiniz.')){
+    // Don't remove user data, just show login screen
+    document.getElementById('loginScreen').style.display='flex';
+    showNotif('👋 Görüşmek üzere!','info');
+  }
+}
+
+function deleteAccount(){
+  if(confirm('HESABINIZI VE TÜM VERİLERİNİZİ KALICI OLARAK SİLMEK İSTEDİĞİNİZE EMİN MİSİNİZ?\n\nBu işlem geri alınamaz!')){
+    if(confirm('SON UYARI! Tüm işlemler, hedefler ve ayarlar silinecek!')){
+      localStorage.clear();
+      location.reload();
+    }
   }
 }
 
 function init(){
   // Check if user logged in
   if(!currentUser){
+    // Show login screen
     document.getElementById('loginScreen').style.display='flex';
     return;
   }
+  
+  // User logged in - hide login screen immediately
+  document.getElementById('loginScreen').style.display='none';
   
   // Check PIN
   if(settings.pin){
@@ -683,6 +836,12 @@ function init(){
   if(settings.theme!='default'){
     document.body.className=`theme-${settings.theme}`;
   }
+  
+  // Load notification settings
+  loadNotificationSettings();
+  
+  // Start notification scheduler
+  startNotificationScheduler();
   
   // Load crypto prices
   fetchCryptoPrices();
@@ -702,11 +861,209 @@ function init(){
     fetchCryptoPrices();
   },60000); // Update every minute
   
-  // Show welcome message
-  if(currentUser.name){
+  // Show welcome message only on first login of the day
+  const lastLogin=localStorage.getItem('paraizi_last_login');
+  const today=new Date().toDateString();
+  
+  if(lastLogin!=today&&currentUser.name){
     setTimeout(()=>{
-      showNotif('👋 Merhaba '+currentUser.name+'!','info');
+      showNotif('👋 Tekrar hoş geldin '+currentUser.name+'!','info');
+      localStorage.setItem('paraizi_last_login',today);
     },3000);
+  }
+}
+
+function loadNotificationSettings(){
+  document.getElementById('dailySummaryToggle').checked=notifications.dailySummary||false;
+  document.getElementById('morningReminderToggle').checked=notifications.morningReminder||false;
+  document.getElementById('lunchReminderToggle').checked=notifications.lunchReminder||false;
+  document.getElementById('eveningReminderToggle').checked=notifications.eveningReminder||false;
+  document.getElementById('budgetAlertsToggle').checked=notifications.budgetAlerts||true;
+  document.getElementById('streakAlertsToggle').checked=notifications.streakAlerts||true;
+}
+
+function toggleNotification(type){
+  notifications[type]=!notifications[type];
+  localStorage.setItem('paraizi_notifications',JSON.stringify(notifications));
+  showNotif('✅ Bildirim ayarı güncellendi!','success');
+  
+  // Restart scheduler with new settings
+  startNotificationScheduler();
+}
+
+function requestNotificationPermission(){
+  if(!('Notification' in window)){
+    showNotif('❌ Tarayıcınız bildirimleri desteklemiyor!','danger');
+    return;
+  }
+  
+  Notification.requestPermission().then(permission=>{
+    if(permission=='granted'){
+      showNotif('✅ Bildirimler etkinleştirildi!','success');
+      // Send a test notification
+      sendNotification('🎉 Bildirimler Aktif!','Artık günlük hatırlatıcılar alacaksınız.');
+    }else if(permission=='denied'){
+      showNotif('❌ Bildirim izni reddedildi. Tarayıcı ayarlarından izin verebilirsiniz.','warning');
+    }else{
+      showNotif('⚠️ Bildirim izni bekleniyor...','info');
+    }
+  });
+}
+
+function sendNotification(title,body,icon){
+  if(!('Notification' in window)||Notification.permission!='granted')return;
+  
+  const notificationIcon=icon||'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cdefs%3E%3ClinearGradient id="g" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%2340E0D0"/%3E%3Cstop offset="100%25" style="stop-color:%231E90FF"/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="100" height="100" rx="20" fill="url(%23g)"/%3E%3Ccircle cx="50" cy="40" r="25" fill="white"/%3E%3Ctext x="50" y="50" text-anchor="middle" font-size="30" font-weight="bold" fill="%231E90FF"%3E₺%3C/text%3E%3Crect x="35" y="65" width="6" height="15" fill="white"/%3E%3Crect x="44" y="60" width="6" height="20" fill="white"/%3E%3Crect x="53" y="55" width="6" height="25" fill="white"/%3E%3Crect x="62" y="70" width="6" height="10" fill="white"/%3E%3C/svg%3E';
+  
+  const notification=new Notification(title,{
+    body:body,
+    icon:notificationIcon,
+    badge:notificationIcon,
+    tag:'paraizi-notification',
+    requireInteraction:false,
+    silent:false
+  });
+  
+  notification.onclick=function(){
+    window.focus();
+    this.close();
+  };
+  
+  // Vibrate if supported
+  if('vibrate' in navigator)navigator.vibrate([100,50,100]);
+}
+
+function testNotification(){
+  if(!('Notification' in window)){
+    showNotif('❌ Tarayıcınız bildirimleri desteklemiyor!','danger');
+    return;
+  }
+  
+  if(Notification.permission!='granted'){
+    showNotif('⚠️ Önce bildirimleri etkinleştirin!','warning');
+    return;
+  }
+  
+  const thisMonth=data.filter(d=>new Date(d.date).getMonth()==new Date().getMonth());
+  const income=thisMonth.filter(d=>d.type=='income').reduce((s,d)=>s+d.amount,0);
+  const expense=thisMonth.filter(d=>d.type=='expense').reduce((s,d)=>s+d.amount,0);
+  const balance=income-expense;
+  
+  sendNotification(
+    '💰 Paraİzi - Test Bildirimi',
+    `Mevcut bakiyeniz: ₺${balance.toLocaleString('tr')}\nBu ay ${thisMonth.length} işlem yaptınız.`
+  );
+  
+  showNotif('📱 Test bildirimi gönderildi!','success');
+}
+
+function startNotificationScheduler(){
+  // Clear existing interval
+  if(notificationInterval){
+    clearInterval(notificationInterval);
+  }
+  
+  // Check every minute for scheduled notifications
+  notificationInterval=setInterval(()=>{
+    const now=new Date();
+    const hour=now.getHours();
+    const minute=now.getMinutes();
+    const timeKey=hour+':'+minute;
+    
+    // Morning Reminder - 09:00
+    if(notifications.morningReminder&&hour==9&&minute==0){
+      const lastCheck=localStorage.getItem('paraizi_morning_check');
+      const today=now.toDateString();
+      if(lastCheck!=today){
+        sendNotification(
+          '☕ Günaydın!',
+          'Bugün harcamalarınızı kaydetmeyi unutmayın! Streak: '+calculateStreak()+' gün 🔥'
+        );
+        localStorage.setItem('paraizi_morning_check',today);
+      }
+    }
+    
+    // Lunch Reminder - 12:30
+    if(notifications.lunchReminder&&hour==12&&minute==30){
+      const lastCheck=localStorage.getItem('paraizi_lunch_check');
+      const today=now.toDateString();
+      if(lastCheck!=today){
+        sendNotification(
+          '🍽️ Öğle Vakti!',
+          'Yemek masrafınızı kaydetmeyi unutmayın!'
+        );
+        localStorage.setItem('paraizi_lunch_check',today);
+      }
+    }
+    
+    // Evening Reminder - 21:00
+    if(notifications.eveningReminder&&hour==21&&minute==0){
+      const lastCheck=localStorage.getItem('paraizi_evening_check');
+      const today=now.toDateString();
+      if(lastCheck!=today){
+        const todayTrans=data.filter(d=>new Date(d.date).toDateString()==today);
+        if(todayTrans.length==0){
+          sendNotification(
+            '🌙 Akşam Hatırlatıcısı',
+            'Bugün henüz işlem eklemediniz. Streak\'inizi kaybetmeyin! 🔥'
+          );
+        }
+        localStorage.setItem('paraizi_evening_check',today);
+      }
+    }
+    
+    // Daily Summary - 20:00
+    if(notifications.dailySummary&&hour==20&&minute==0){
+      const lastCheck=localStorage.getItem('paraizi_daily_summary');
+      const today=now.toDateString();
+      if(lastCheck!=today){
+        const todayTrans=data.filter(d=>new Date(d.date).toDateString()==today);
+        const todayExpense=todayTrans.filter(d=>d.type=='expense').reduce((s,d)=>s+d.amount,0);
+        
+        sendNotification(
+          '📊 Günlük Özet',
+          `Bugün ${todayTrans.length} işlem yaptınız.\nToplam gider: ₺${todayExpense.toLocaleString('tr')}`
+        );
+        localStorage.setItem('paraizi_daily_summary',today);
+      }
+    }
+    
+    // Streak Alert - 22:00
+    if(notifications.streakAlerts&&hour==22&&minute==0){
+      const lastCheck=localStorage.getItem('paraizi_streak_check');
+      const today=now.toDateString();
+      if(lastCheck!=today){
+        const todayTrans=data.filter(d=>new Date(d.date).toDateString()==today);
+        if(todayTrans.length==0&&calculateStreak()>0){
+          sendNotification(
+            '🔥 Streak Uyarısı!',
+            `${calculateStreak()} günlük streak\'inizi kaybetmek üzeresiniz! Hemen bir işlem ekleyin!`
+          );
+        }
+        localStorage.setItem('paraizi_streak_check',today);
+      }
+    }
+    
+  },60000); // Check every minute
+}
+
+function checkBudgetNotification(){
+  if(!notifications.budgetAlerts)return;
+  
+  const thisMonth=data.filter(d=>new Date(d.date).getMonth()==new Date().getMonth());
+  const expense=thisMonth.filter(d=>d.type=='expense').reduce((s,d)=>s+d.amount,0);
+  const budget=settings.budget||50000;
+  const percentage=(expense/budget)*100;
+  
+  const lastAlert=localStorage.getItem('paraizi_budget_alert');
+  const today=new Date().toDateString();
+  
+  if(percentage>=90&&lastAlert!=today){
+    sendNotification(
+      '⚠️ Bütçe Uyarısı!',
+      `Aylık bütçenizin %${Math.round(percentage)}\'ini kullandınız!\nKalan: ₺${(budget-expense).toLocaleString('tr')}`
+    );
+    localStorage.setItem('paraizi_budget_alert',today);
   }
 }
 
@@ -775,6 +1132,11 @@ function addTransaction(){
   render();
   checkAchievements();
   generateAIInsights();
+  
+  // Check budget after adding expense
+  if(currentType=='expense'){
+    checkBudgetNotification();
+  }
   
   showNotif('✅ İşlem eklendi!','success');
   
