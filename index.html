@@ -8,12 +8,33 @@
 <meta name="theme-color" content="#6366F1">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366F1'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-size='60'%3E💰%3C/text%3E%3C/svg%3E">
-<title>💰 Paraİzi Pro</title>
+<title>💰 Paraİzi</title>
 <style>
 :root{--p:#6366F1;--pd:#4F46E5;--s:#10B981;--d:#EF4444;--w:#F59E0B;--bg:#f1f5f9;--c:#fff;--t:#0f172a;--td:#64748b;--b:#e2e8f0}
 body.dark{--p:#818CF8;--bg:#0f172a;--c:#1e293b;--t:#f1f5f9;--td:#94a3b8;--b:#334155}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);transition:all .3s}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--t);transition:all .3s;overflow:hidden}
+
+/* Splash Screen */
+.splash{position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#6366F1 0%,#4F46E5 100%);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeOut 0.5s 2s forwards}
+.splash-content{text-align:center;animation:zoomIn 0.8s ease-out}
+.splash-logo{font-size:120px;margin-bottom:20px;animation:bounce 1s infinite alternate}
+.splash-title{font-size:48px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:10px;animation:slideUp 0.6s 0.3s both}
+.splash-subtitle{font-size:16px;color:rgba(255,255,255,0.8);font-weight:500;animation:slideUp 0.6s 0.5s both}
+.splash-loader{width:60px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;margin:30px auto 0;overflow:hidden;position:relative}
+.splash-loader:after{content:'';position:absolute;top:0;left:0;width:30px;height:100%;background:#fff;border-radius:2px;animation:loading 1.5s infinite}
+
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+@keyframes zoomIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes loading{0%{left:-30px}100%{left:100%}}
+
+/* Ana Uygulama */
+.app{opacity:0;animation:fadeIn 0.5s 2.5s forwards}
+@keyframes fadeIn{to{opacity:1}}
+
+body{overflow-y:auto}
 .h{background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;padding:30px 20px;text-align:center;position:relative}
 .h .ic{position:absolute;top:15px;right:15px;display:flex;gap:10px}
 .ib{background:rgba(255,255,255,.2);border:none;width:40px;height:40px;border-radius:10px;color:#fff;font-size:20px;cursor:pointer}
@@ -61,6 +82,19 @@ h3{margin-bottom:15px}
 </style>
 </head>
 <body>
+
+<!-- Splash Screen -->
+<div class="splash">
+  <div class="splash-content">
+    <div class="splash-logo">💰</div>
+    <div class="splash-title">Paraİzi</div>
+    <div class="splash-subtitle">Kişisel Finans Yöneticisi</div>
+    <div class="splash-loader"></div>
+  </div>
+</div>
+
+<!-- Ana Uygulama -->
+<div class="app">
 
 <div id="home" class="sc act">
 <div class="h">
@@ -198,6 +232,8 @@ h3{margin-bottom:15px}
   <button class="btn bp" onclick="sv()">💾 Kaydet</button>
   <button class="btn" onclick="cm()" style="background:var(--bg)">İptal</button>
 </div>
+</div>
+
 </div>
 
 <script>
